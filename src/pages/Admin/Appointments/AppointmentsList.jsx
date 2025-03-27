@@ -8,7 +8,7 @@ import { barberService } from '../../../services/barberService';
 import { formatCurrency } from '../../../utils/formatUtils';
 import { format, parseISO, isValid } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
-import { PlusIcon, SearchIcon } from '@heroicons/react/24/outline';
+import { PlusIcon } from '@heroicons/react/24/outline';
 
 const AdminAppointmentsList = () => {
   const [appointments, setAppointments] = useState([]);

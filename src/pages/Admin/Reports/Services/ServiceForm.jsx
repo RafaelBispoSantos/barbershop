@@ -79,7 +79,8 @@ const ServiceForm = () => {
         result = await serviceService.createService(formData);
         setSuccess('Serviço criado com sucesso!');
       }
-      
+      console.log(result);
+
       // Redirecionar após um breve delay para mostrar a mensagem de sucesso
       setTimeout(() => {
         navigate('/admin/services');

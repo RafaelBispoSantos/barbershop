@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Layout from '../components/layout/Layout';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import Alert from '../components/ui/Alert';
@@ -44,14 +43,45 @@ const Profile = () => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
     
-    // Implementar atualização de perfil quando tivermos essa funcionalidade na API
-    setSuccess('Perfil atualizado com sucesso!');
+    try {
+      // Simulando uma chamada de API com um timeout
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Implementar atualização de perfil quando tivermos essa funcionalidade na API
+      // Exemplo de como seria:
+      // await userService.updateProfile(formData);
+      
+      setSuccess('Perfil atualizado com sucesso!');
+    } catch (err) {
+      setError(err.message || 'Ocorreu um erro ao atualizar o perfil');
+    } finally {
+      setLoading(false);
+    }
   };
   
   const handleLogout = () => {
-    logout();
-    navigate('/');
+    setLoading(true);
+    setTimeout(() => {
+      logout();
+      setLoading(false);
+      navigate('/');
+    }, 500); // Pequeno delay para mostrar o estado de loading
+  };
+  
+  const handlePhotoChange = () => {
+    setLoading(true);
+    // Simulando o upload de uma imagem
+    setTimeout(() => {
+      setFormData(prev => ({
+        ...prev,
+        fotoPerfil: "https://randomuser.me/api/portraits/women/44.jpg" // Exemplo de URL de imagem
+      }));
+      setSuccess('Foto atualizada com sucesso!');
+      setLoading(false);
+    }, 1500);
   };
   
   if (!currentUser) {
@@ -62,7 +92,6 @@ const Profile = () => {
     );
   }
   
-
   const isAdmin = () => {
     const userStr = localStorage.getItem('user');
     if (!userStr) return false;
@@ -74,6 +103,7 @@ const Profile = () => {
       return false;
     }
   };
+  
   return (
     <div>
       <div className="container mx-auto px-4 py-12">
@@ -97,27 +127,47 @@ const Profile = () => {
               onClose={() => setSuccess(null)}
             />
           )}
+          
+          {loading && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-md p-4 mb-6">
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <svg className="animate-spin h-5 w-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm text-yellow-700">
+                    Processando sua solicitação...
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+          
           {isAdmin() && (
-  <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
-    <div className="flex items-center">
-      <div className="flex-shrink-0">
-        <svg className="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-        </svg>
-      </div>
-      <div className="ml-3 flex-1 md:flex md:justify-between">
-        <p className="text-sm text-blue-700">
-          Você tem acesso ao painel administrativo.
-        </p>
-        <p className="mt-3 text-sm md:mt-0 md:ml-6">
-          <Link to="/admin" className="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">
-            Acessar painel <span aria-hidden="true">&rarr;</span>
-          </Link>
-        </p>
-      </div>
-    </div>
-  </div>
-)}
+            <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <svg className="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="ml-3 flex-1 md:flex md:justify-between">
+                  <p className="text-sm text-blue-700">
+                    Você tem acesso ao painel administrativo.
+                  </p>
+                  <p className="mt-3 text-sm md:mt-0 md:ml-6">
+                    <Link to="/admin" className="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">
+                      Acessar painel <span aria-hidden="true">&rarr;</span>
+                    </Link>
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+          
           <div className="bg-white shadow-md rounded-lg overflow-hidden">
             <div className="p-6">
               <form onSubmit={handleSubmit}>
@@ -143,8 +193,13 @@ const Profile = () => {
                       )}
                     </div>
                     <div className="ml-4">
-                      <Button type="button" variant="secondary">
-                        Alterar Foto
+                      <Button 
+                        type="button" 
+                        variant="secondary" 
+                        onClick={handlePhotoChange}
+                        disabled={loading}
+                      >
+                        {loading ? 'Carregando...' : 'Alterar Foto'}
                       </Button>
                     </div>
                   </div>
@@ -157,6 +212,7 @@ const Profile = () => {
                   value={formData.nome}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                 />
                 
                 <Input
@@ -167,6 +223,7 @@ const Profile = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                 />
                 
                 <Input
@@ -176,14 +233,15 @@ const Profile = () => {
                   value={formData.telefone}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                 />
                 
                 <div className="flex justify-between mt-8">
                   <Button type="submit" disabled={loading}>
                     {loading ? 'Salvando...' : 'Salvar Alterações'}
                   </Button>
-                  <Button type="button" variant="danger" onClick={handleLogout}>
-                    Sair
+                  <Button type="button" variant="danger" onClick={handleLogout} disabled={loading}>
+                    {loading ? 'Saindo...' : 'Sair'}
                   </Button>
                 </div>
               </form>

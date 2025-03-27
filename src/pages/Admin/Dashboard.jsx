@@ -4,9 +4,8 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import Card from '../../components/ui/Card';
 import { appointmentService } from '../../services/appointmentService';
 import { barberService } from '../../services/barberService';
-import { serviceService } from '../../services/serviceService';
 import { formatCurrency } from '../../utils/formatUtils';
-import { format, startOfDay, endOfDay, addDays } from 'date-fns';
+import { format, addDays } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 
 const AdminDashboard = () => {
@@ -37,7 +36,7 @@ const AdminDashboard = () => {
         
         // Calcular faturamento da semana
         let faturamentoSemanal = 0;
-        const endDate = today;
+        
         const startDate = addDays(today, -7);
         
         for (let i = 0; i < 7; i++) {

@@ -7,6 +7,8 @@ import { useAuth } from '../hooks/useAuth';
 
 const Home = () => {
   const { currentUser } = useAuth();
+  console.log(currentUser);
+
   
   return (
     <Layout>

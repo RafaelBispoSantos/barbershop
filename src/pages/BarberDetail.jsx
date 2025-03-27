@@ -1,10 +1,9 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import BarberProfile from '../components/barbers/BarberProfile';
 
 const BarberDetail = () => {
-  const { id } = useParams();
+  
   
   return (
     <Layout>

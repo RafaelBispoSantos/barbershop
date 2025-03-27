@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../../components/admin/AdminLayout';
 import { format, subMonths, startOfMonth, endOfMonth } from 'date-fns';
-import pt from 'date-fns/locale/pt-BR';
-import { appointmentService } from '../../../services/appointmentService';
 import { formatCurrency } from '../../../utils/formatUtils';
 import Alert from '../../../components/ui/Alert';
 import Button from '../../../components/ui/Button';
