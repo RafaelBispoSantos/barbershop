@@ -1,0 +1,713 @@
+{
+    "info": {
+      "name": "BarberApp API",
+      "description": "API completa para sistema de agendamento de barbearia, incluindo painel administrativo",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Autenticação",
+        "description": "Endpoints para autenticação e registro de usuários",
+        "item": [
+          {
+            "name": "Login",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"email\": \"maria@gmail.com\",\n    \"password\": \"senha123\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "login"]
+              },
+              "description": "Autentica um usuário e retorna um token JWT"
+            },
+            "response": []
+          },
+          {
+            "name": "Registro",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"nome\": \"Novo Cliente\",\n    \"email\": \"cliente@exemplo.com\",\n    \"password\": \"senha123\",\n    \"telefone\": \"(11) 91234-5678\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/register",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "register"]
+              },
+              "description": "Registra um novo cliente"
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Barbeiros",
+        "description": "Endpoints para gerenciamento de barbeiros",
+        "item": [
+          {
+            "name": "Listar Barbeiros",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/barbeiros",
+                "host": ["{{baseUrl}}"],
+                "path": ["barbeiros"]
+              },
+              "description": "Retorna todos os barbeiros ativos"
+            },
+            "response": []
+          },
+          {
+            "name": "Obter Barbeiro por ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/barbeiros/{{barbeiroId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["barbeiros", "{{barbeiroId}}"]
+              },
+              "description": "Retorna detalhes de um barbeiro específico"
+            },
+            "response": []
+          },
+          {
+            "name": "Horários Disponíveis",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/barbeiros/horarios-disponiveis?barbeiroId={{barbeiroId}}&data=2025-03-20",
+                "host": ["{{baseUrl}}"],
+                "path": ["barbeiros", "horarios-disponiveis"],
+                "query": [
+                  {
+                    "key": "barbeiroId",
+                    "value": "{{barbeiroId}}"
+                  },
+                  {
+                    "key": "data",
+                    "value": "2025-03-20"
+                  }
+                ]
+              },
+              "description": "Retorna horários disponíveis para um barbeiro em uma data específica"
+            },
+            "response": []
+          },
+          {
+            "name": "Criar Barbeiro",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"nome\": \"Paulo Santos\",\n    \"email\": \"paulo@barbearia.com\",\n    \"telefone\": \"(11) 95555-6666\",\n    \"especialidades\": [\"Corte Degradê\", \"Barba Completa\"],\n    \"horarioTrabalho\": {\n        \"inicio\": \"08:00\",\n        \"fim\": \"17:00\",\n        \"diasDisponiveis\": [1, 2, 3, 4, 5]\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/barbeiros",
+                "host": ["{{baseUrl}}"],
+                "path": ["barbeiros"]
+              },
+              "description": "Cria um novo barbeiro"
+            },
+            "response": []
+          },
+          {
+            "name": "Atualizar Barbeiro",
+            "request": {
+              "method": "PATCH",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"especialidades\": [\"Corte Degradê\", \"Barba Completa\", \"Tratamento Capilar\"],\n    \"horarioTrabalho\": {\n        \"inicio\": \"09:00\",\n        \"fim\": \"18:00\",\n        \"diasDisponiveis\": [1, 2, 3, 4, 5, 6]\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/barbeiros/{{barbeiroId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["barbeiros", "{{barbeiroId}}"]
+              },
+              "description": "Atualiza informações de um barbeiro"
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Serviços",
+        "description": "Endpoints para gerenciamento de serviços",
+        "item": [
+          {
+            "name": "Listar Serviços",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/servicos",
+                "host": ["{{baseUrl}}"],
+                "path": ["servicos"]
+              },
+              "description": "Retorna todos os serviços ativos"
+            },
+            "response": []
+          },
+          {
+            "name": "Obter Serviço por ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/servicos/{{servicoId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["servicos", "{{servicoId}}"]
+              },
+              "description": "Retorna detalhes de um serviço específico"
+            },
+            "response": []
+          },
+          {
+            "name": "Criar Serviço",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"nome\": \"Coloração\",\n    \"descricao\": \"Coloração completa dos cabelos\",\n    \"preco\": 80,\n    \"duracao\": 60,\n    \"categoria\": \"Tratamentos\",\n    \"imagem\": \"https://exemplo.com/servicos/coloracao.jpg\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/servicos",
+                "host": ["{{baseUrl}}"],
+                "path": ["servicos"]
+              },
+              "description": "Cria um novo serviço"
+            },
+            "response": []
+          },
+          {
+            "name": "Atualizar Serviço",
+            "request": {
+              "method": "PATCH",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"preco\": 85,\n    \"duracao\": 65\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/servicos/{{servicoId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["servicos", "{{servicoId}}"]
+              },
+              "description": "Atualiza informações de um serviço"
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Clientes",
+        "description": "Endpoints para gerenciamento de clientes",
+        "item": [
+          {
+            "name": "Criar Cliente",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"nome\": \"Pedro Almeida\",\n    \"email\": \"pedro@exemplo.com\",\n    \"password\": \"senha123\",\n    \"telefone\": \"(11) 94444-5555\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/clientes",
+                "host": ["{{baseUrl}}"],
+                "path": ["clientes"]
+              },
+              "description": "Cria um novo cliente"
+            },
+            "response": []
+          },
+          {
+            "name": "Listar Clientes",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/clientes",
+                "host": ["{{baseUrl}}"],
+                "path": ["clientes"]
+              },
+              "description": "Retorna todos os clientes"
+            },
+            "response": []
+          },
+          {
+            "name": "Obter Cliente por ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/clientes/{{clienteId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["clientes", "{{clienteId}}"]
+              },
+              "description": "Retorna detalhes de um cliente específico"
+            },
+            "response": []
+          },
+          {
+            "name": "Atualizar Cliente",
+            "request": {
+              "method": "PATCH",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"telefone\": \"(11) 98888-9999\",\n    \"fotoPerfil\": \"https://exemplo.com/fotos/joao.jpg\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/clientes/{{clienteId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["clientes", "{{clienteId}}"]
+              },
+              "description": "Atualiza informações de um cliente"
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Agendamentos",
+        "description": "Endpoints para gerenciamento de agendamentos",
+        "item": [
+          {
+            "name": "Criar Agendamento",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"cliente\": \"{{clienteId}}\",\n    \"barbeiro\": \"{{barbeiroId}}\",\n    \"servicos\": [\"{{servicoId1}}\", \"{{servicoId2}}\"],\n    \"data\": \"2025-03-20\",\n    \"horario\": \"14:30\",\n    \"notasCliente\": \"Prefiro corte mais curto nas laterais\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/agendamentos",
+                "host": ["{{baseUrl}}"],
+                "path": ["agendamentos"]
+              },
+              "description": "Cria um novo agendamento"
+            },
+            "response": []
+          },
+          {
+            "name": "Listar Agendamentos",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/agendamentos?cliente={{clienteId}}&status=agendado",
+                "host": ["{{baseUrl}}"],
+                "path": ["agendamentos"],
+                "query": [
+                  {
+                    "key": "cliente",
+                    "value": "{{clienteId}}",
+                    "description": "Opcional: Filtrar por cliente"
+                  },
+                  {
+                    "key": "barbeiro",
+                    "value": "{{barbeiroId}}",
+                    "description": "Opcional: Filtrar por barbeiro",
+                    "disabled": true
+                  },
+                  {
+                    "key": "data",
+                    "value": "2025-03-20",
+                    "description": "Opcional: Filtrar por data",
+                    "disabled": true
+                  },
+                  {
+                    "key": "status",
+                    "value": "agendado",
+                    "description": "Opcional: Filtrar por status"
+                  }
+                ]
+              },
+              "description": "Retorna agendamentos com base nos filtros"
+            },
+            "response": []
+          },
+          {
+            "name": "Obter Agendamento por ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/agendamentos/{{agendamentoId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["agendamentos", "{{agendamentoId}}"]
+              },
+              "description": "Retorna detalhes de um agendamento específico"
+            },
+            "response": []
+          },
+          {
+            "name": "Atualizar Status do Agendamento",
+            "request": {
+              "method": "PATCH",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"status\": \"confirmado\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/agendamentos/{{agendamentoId}}/status",
+                "host": ["{{baseUrl}}"],
+                "path": ["agendamentos", "{{agendamentoId}}", "status"]
+              },
+              "description": "Atualiza o status de um agendamento"
+            },
+            "response": []
+          },
+          {
+            "name": "Adicionar Avaliação",
+            "request": {
+              "method": "PATCH",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"nota\": 5,\n    \"comentario\": \"Excelente atendimento, recomendo!\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/agendamentos/{{agendamentoId}}/avaliacao",
+                "host": ["{{baseUrl}}"],
+                "path": ["agendamentos", "{{agendamentoId}}", "avaliacao"]
+              },
+              "description": "Adiciona uma avaliação a um agendamento concluído"
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Admin",
+        "description": "Endpoints exclusivos para o painel administrativo",
+        "item": [
+          {
+            "name": "Estatísticas Dashboard",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/admin/stats",
+                "host": ["{{baseUrl}}"],
+                "path": ["admin", "stats"]
+              },
+              "description": "Obtém estatísticas para o dashboard administrativo"
+            },
+            "response": []
+          },
+          {
+            "name": "Relatório de Faturamento",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/admin/reports/revenue?startDate=2025-03-01&endDate=2025-03-31",
+                "host": ["{{baseUrl}}"],
+                "path": ["admin", "reports", "revenue"],
+                "query": [
+                  {
+                    "key": "startDate",
+                    "value": "2025-03-01"
+                  },
+                  {
+                    "key": "endDate",
+                    "value": "2025-03-31"
+                  }
+                ]
+              },
+              "description": "Obtém relatório de faturamento para um período específico"
+            },
+            "response": []
+          },
+          {
+            "name": "Desempenho dos Barbeiros",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/admin/reports/barbers-performance?startDate=2025-03-01&endDate=2025-03-31",
+                "host": ["{{baseUrl}}"],
+                "path": ["admin", "reports", "barbers-performance"],
+                "query": [
+                  {
+                    "key": "startDate",
+                    "value": "2025-03-01"
+                  },
+                  {
+                    "key": "endDate",
+                    "value": "2025-03-31"
+                  }
+                ]
+              },
+              "description": "Obtém relatório de desempenho dos barbeiros"
+            },
+            "response": []
+          },
+          {
+            "name": "Atualizar Horário de Trabalho",
+            "request": {
+              "method": "PATCH",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"horarioTrabalho\": {\n        \"inicio\": \"09:00\",\n        \"fim\": \"18:00\",\n        \"diasDisponiveis\": [1, 2, 3, 4, 5]\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/admin/barbers/{{barbeiroId}}/schedule",
+                "host": ["{{baseUrl}}"],
+                "path": ["admin", "barbers", "{{barbeiroId}}", "schedule"]
+              },
+              "description": "Atualiza o horário de trabalho de um barbeiro"
+            },
+            "response": []
+          },
+          {
+            "name": "Obter Todos os Agendamentos com Filtros",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/admin/appointments?startDate=2025-03-01&endDate=2025-03-31&status=todos",
+                "host": ["{{baseUrl}}"],
+                "path": ["admin", "appointments"],
+                "query": [
+                  {
+                    "key": "startDate",
+                    "value": "2025-03-01"
+                  },
+                  {
+                    "key": "endDate",
+                    "value": "2025-03-31"
+                  },
+                  {
+                    "key": "status",
+                    "value": "todos"
+                  },
+                  {
+                    "key": "barbeiro",
+                    "value": "{{barbeiroId}}",
+                    "disabled": true
+                  }
+                ]
+              },
+              "description": "Obtém todos os agendamentos com filtros avançados"
+            },
+            "response": []
+          }
+        ]
+      }
+    ],
+    "event": [],
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "http://localhost:3001/api",
+        "type": "string",
+        "description": "URL base da API"
+      },
+      {
+        "key": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+        "type": "string",
+        "description": "Token JWT para autenticação"
+      },
+      {
+        "key": "clienteId",
+        "value": "67da3372973a63734d1fbbaa",
+        "type": "string",
+        "description": "ID da Maria (Admin)"
+      },
+      {
+        "key": "barbeiroId",
+        "value": "id_do_barbeiro",
+        "type": "string",
+        "description": "ID de um barbeiro"
+      },
+      {
+        "key": "servicoId",
+        "value": "id_do_servico",
+        "type": "string",
+        "description": "ID de um serviço"
+      },
+      {
+        "key": "servicoId1",
+        "value": "id_do_servico_1",
+        "type": "string",
+        "description": "ID do primeiro serviço"
+      },
+      {
+        "key": "servicoId2",
+        "value": "id_do_servico_2",
+        "type": "string",
+        "description": "ID do segundo serviço"
+      },
+      {
+        "key": "agendamentoId",
+        "value": "id_do_agendamento",
+        "type": "string",
+        "description": "ID de um agendamento"
+      }
+    ]
+  }
