@@ -72,7 +72,7 @@ const BarberForm = () => {
       
       fetchBarber();
     }
-  }, [id, isEditing]);
+  }, [id, isEditing, formData]);
   
   const handleChange = (e) => {
     const { name, value } = e.target;

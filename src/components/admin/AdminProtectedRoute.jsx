@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+
 
 const AdminProtectedRoute = ({ children }) => {
     // Em vez de depender do contexto, obtenha diretamente do localStorage

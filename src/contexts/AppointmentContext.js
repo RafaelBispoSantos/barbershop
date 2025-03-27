@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 import { format } from 'date-fns';
-import pt from 'date-fns/locale/pt-BR';
+
 
 export const AppointmentContext = createContext();
 

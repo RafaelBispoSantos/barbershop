@@ -67,7 +67,7 @@ const AdminBarberSchedule = () => {
     };
     
     fetchBarberAndSchedule();
-  }, [id, currentWeek]);
+  }, [id, currentWeek,weekDays]);
   
   const handlePreviousWeek = () => {
     setCurrentWeek(prevWeek => addDays(prevWeek, -7));
