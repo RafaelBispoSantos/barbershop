@@ -152,12 +152,12 @@ Distribuído sob a Licença MIT. Veja `LICENSE` para mais informações.
 
 ## 📞 Contato
 
-Seu Nome - [@seunomeusuario](https://twitter.com/seunomeusuario) - email@exemplo.com
+Rafael Bispo - RafaelBispodev@outlook.com
 
 Link do Projeto: [https://github.com/seunomeusuario/barberapp-frontend](https://github.com/seunomeusuario/barberapp-frontend)
 
 ---
 
 <div align="center">
-  <p>Desenvolvido com ❤️ por Seu Nome</p>
+  <p>Desenvolvido com ❤️ por Rafael Bispo</p>
 </div>
